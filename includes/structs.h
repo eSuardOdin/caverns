@@ -19,25 +19,32 @@ typedef struct Position
 */
 typedef enum {
     NORTH,
+    WEST,
     SOUTH,
-    EAST,
-    WEST
+    EAST
 } Direction;
 
-typedef struct Gate {
-    int size;
-    Direction direction;
-} Gate;
+// typedef struct Gate {
+//     int width;
+//     int height;
+//     Position * gatePos;
+//     // Direction direction;
+// } Gate;
 
+/**
+ * Struct for a room / cardinals[0]: N | [1]: W | [2]: S | [3]: E
+*/
 typedef struct Room
 {
     Position * roomPos;
+    // Gate ** gates;
     int width;
     int height;
+    // Direction ** cardinals;
 } Room;
 int drawRoom(Room *);
 Room * createRoom(int x, int y, int width, int height);
-
+void removeCardinal(Room * room, Direction cardinal);
 
 
 

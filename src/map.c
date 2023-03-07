@@ -22,16 +22,19 @@ Map * createMap(int roomNb, int mapWidth, int mapHeight, int level) {
     map->level = level;
     // First room (may be a future function)
     Room * room;
-    int minX = (mapWidth/2) - 10; // Magic numbers not good, to improve
-    int maxX = (mapWidth/2) + 10;
-    int minY = (mapHeight/2) - 10; 
-    int maxY = (mapHeight/2) + 10;
+    // Setting the top left spawn for room
+    int minX = (mapWidth/2) - 8; // Magic numbers not good, to improve
+    int maxX = (mapWidth/2) + 8;
+    int minY = (mapHeight/2) - 8; 
+    int maxY = (mapHeight/2) + 8;
     int roomX = 0;
+    // Setting room width between 5 and 15
     int roomWidth = rand() % (15 - 5 + 1) + 5;
-    while(roomX == 0 || roomX + roomWidth >= map->width - roomX) {
+    while(roomX == 0 || roomX + roomWidth >= map->width - roomX ) {
         roomX = rand() % (maxX - minX + 1) + minX;
     }
     int roomY = 0;
+    // Setting room height between 5 and 15
     int roomHeight = rand() % (15 - 5 + 1) + 5;
     while(roomY == 0 || roomY + roomHeight >= map->height - roomY) {
         roomY = rand() % (maxY - minY + 1) + minY;
