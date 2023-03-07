@@ -50,5 +50,6 @@ typedef struct Map
 } Map;
 int drawMap(Map *);
 Map * createMap(int roomNb, int mapWidth, int mapHeight, int level);
+int drawFirstRoom(Map * map, Room * room);
 
 #endif

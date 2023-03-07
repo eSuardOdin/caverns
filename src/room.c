@@ -12,7 +12,6 @@ int drawRoom(Room * room) {
             mvprintw(y+room->roomPos->y, x+room->roomPos->x, " ");
         }
     }
-
     return 0;
 }
 
