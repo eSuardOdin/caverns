@@ -16,12 +16,13 @@ int main (void) {
     Room ** rooms;
     rooms = malloc(2*sizeof(Room *));
     map->rooms = rooms;
+
+
+    Position * roomPos;
+    roomPos = malloc(sizeof(Position));
+
     Room * room;
-    room = malloc(sizeof(Room));
-    room->height = 3;
-    room->width = 12;
-    room->roomX = 22;
-    room->roomY = 20;
+    room = createRoom(5,5,20,35);
     rooms[0] = room;
     drawMap(map);
     drawRoom(rooms[0]); // To put in DrawMap

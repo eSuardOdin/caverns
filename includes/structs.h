@@ -1,5 +1,5 @@
 #ifndef STRUCTS_H
-#define STRUCTS_H
+#define STRUCTS_H 
 
 #include <ncurses.h>
 #include <stdlib.h>
@@ -9,11 +9,11 @@
 /**
  * Defines a position x y
 */
-// typedef struct Position
-// {
-//     int x;
-//     int y;
-// } Position;
+typedef struct Position
+{
+    int x;
+    int y;
+} Position;
 /**
  * Directions
 */
@@ -31,13 +31,15 @@ typedef struct Gate {
 
 typedef struct Room
 {
-    // Position * roomPos;
-    int roomX;
-    int roomY;
+    Position * roomPos;
     int width;
     int height;
 } Room;
 int drawRoom(Room *);
+Room * createRoom(int x, int y, int width, int height);
+
+
+
 
 typedef struct Map 
 {
@@ -47,5 +49,6 @@ typedef struct Map
     int height;
 } Map;
 int drawMap(Map *);
+Map * createMap(int roomNb, int mapWidth, int mapHeight, int level);
 
 #endif
