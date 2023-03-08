@@ -9,9 +9,20 @@
  * @return A pointer to the map created
 */
 Map * createMap(int roomNb, int mapWidth, int mapHeight, int level) {
+
+    // Create wall tiles
+    Tile wall;
+    wall.graphic = '#';
+    wall.isCrossable = false;
+
+    // Create floor tiles
+    Tile floor;
+    floor.graphic = ' ';
+    floor.isCrossable = false;
+
     // allocate memory for map
     Map * map = malloc(sizeof(Map));
-    // Allocate memory for the array of rooms
+    // // Allocate memory for the array of rooms
     Room ** rooms;
     rooms = malloc(roomNb * (sizeof(Room *)));
     map->rooms = rooms;
@@ -20,7 +31,98 @@ Map * createMap(int roomNb, int mapWidth, int mapHeight, int level) {
     map->height = mapHeight;
     map->width = mapWidth;
     map->level = level;
+    
+    //Allocate memory for the tiles 
+    map->tiles = (Tile**) malloc(map->width * sizeof(Tile*));
+    for(int i = 0; i < map->width; i++) {
+        map->tiles[i] = (Tile *) malloc(map->height * sizeof(Tile));
+    }
+    // Populate map array
+    for(int x = 0; x < map->width; x++) {
+        for(int y = 0; y < map->height; y++) {
+            map->tiles[x][y] = wall;
+        }
+    }
+    
     // First room (may be a future function)
+    Room * room;
+    int roomX = 25;
+    int roomY = 20;
+    // Setting room height between 5 and 15
+    int roomHeight = 10;
+    int roomWidth = 20;
+
+    room = createRoom(roomX,roomY,roomWidth,roomHeight);
+    rooms[0] = room;
+
+    // Populate map from room tiles
+    for(int x = room[0].roomPos->x; x <= room[0].roomPos->x + room[0].width; x++) {
+        for(int y = room[0].roomPos->y; y <= room[0].roomPos->y + room->height; y ++) {
+            map->tiles[x][y] = floor;
+        }
+    }
+
+    return map;
+}
+/**
+ * Draws the map on terminal
+ * @param map The map to draw
+ * @return Zero if success
+*/
+int drawMap(Map * map) {
+
+    for(int x = 0; x < map->width; x++) {
+        for(int y = 0; y < map->height; y++) {
+            mvaddch(y + 5, x + 5, map->tiles[x][y].graphic);
+        }
+    }
+
+    // Draw the first room
+    // drawRoom(map->rooms[0]);
+
+    return 0;
+}
+
+
+Connector * randomWallPosition(Map*map){
+    int x;
+    int y;
+    Position * pos = (Position*) malloc(sizeof(Position));
+    Connector * connector = (Connector*) malloc(sizeof(Connector));
+    // Tile connectorTile;
+    // connectorTile.graphic = ' ';
+    // connectorTile.isCrossable = true; 
+    while(1) {
+        x = rand() % (map->width);
+        y = rand() % (map->height);
+        if(x > 0 && y > 0 && x < map->width-1 && y < map->height-1 
+           &&  map->tiles[x][y].graphic == '#'
+           && (map->tiles[x-1][y].graphic == ' '
+           ||  map->tiles[x+1][y].graphic == ' '
+           ||  map->tiles[x][y-1].graphic == ' '
+           ||  map->tiles[x][y+1].graphic == ' '
+           )) {
+            if(map->tiles[x-1][y].graphic == ' ')      connector->direction = 3;
+            else if(map->tiles[x+1][y].graphic == ' ') connector->direction = 1;
+            else if(map->tiles[x][y-1].graphic == ' ') connector->direction = 2;
+            else                                       connector->direction = 0; 
+            pos->x = x;
+            pos->y = y;
+            connector->connectorPos = pos;
+            // drawMap(map);
+            break;
+        } 
+    }
+    return pos;
+}
+
+
+
+
+
+// Random first room
+/*
+// First room (may be a future function)
     Room * room;
     // Setting the top left spawn for room
     int minX = (mapWidth/2) - 8; // Magic numbers not good, to improve
@@ -43,28 +145,4 @@ Map * createMap(int roomNb, int mapWidth, int mapHeight, int level) {
     room = createRoom(roomX,roomY,roomWidth,roomHeight);
     rooms[0] = room;
 
-    return map;
-}
-/**
- * Draws the map on terminal
- * @param map The map to draw
- * @return Zero if success
 */
-int drawMap(Map * map) {
-    for (int x = 2; x <= (map->width)+2; x++) {
-        for (int y = 2; y <= (map->height)+2; y++) {
-            mvprintw(y, x, "#");
-        }
-    }
-
-
-    // Draw the first room
-    drawRoom(map->rooms[0]);
-
-    return 0;
-}
-
-int drawFirstRoom(Map * map, Room * room) {
-    
-    return 0;
-}

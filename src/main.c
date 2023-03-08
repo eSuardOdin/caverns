@@ -12,8 +12,9 @@ int main (void) {
     refresh();
 
     Map * map;
-    map = createMap(2, 125, 30, 1);
+    map = createMap(2, 100, 50, 1);
     drawMap(map);
+    randomWallPosition(map);
     while((userInput = getch()) != 'x'){
         
     }

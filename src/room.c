@@ -25,34 +25,22 @@ int drawRoom(Room * room) {
  * @return A pointer to the room created
 */
 Room * createRoom(int x, int y, int width, int height) {
+    
     // Allocate memory for the room
     Room * room;
     room = malloc(sizeof(Room));
     // Allocate memory for the position
     Position * roomPos;
-
+    
     roomPos = malloc(sizeof(Position));
     // Attributes
     room->roomPos = roomPos;
     room->roomPos->x = x;
     room->roomPos->y = y;
-    room->height = width;
-    room->width = height;
+    room->height = height;
+    room->width = width;
 
+    
     return room;
 }
 
-// void removeCardinal(Room * room, Direction cardinal) {
-//     // Check the nb left
-//     int cardsLeft;
-//     for(int j = 0; j < 4; j++) {
-//         if((room->cardinals[j+1] == NULL && room->cardinals[0] != NULL) || j == 3) {
-//             cardsLeft = j+1;
-//             break;
-//         } else cardsLeft = 0;
-//     }
-    
-//     for(int i = 0; i < cardsLeft; i++) {
-//         if(room->cardinals[i] == cardinal) break;
-//     } for(; i < room->cardinals[])
-// }

@@ -6,6 +6,12 @@
 #include <time.h>
 #include <stdbool.h>
 
+
+typedef struct Tile {
+    char graphic;
+    bool isCrossable;
+} Tile;
+
 /**
  * Defines a position x y
 */
@@ -14,15 +20,6 @@ typedef struct Position
     int x;
     int y;
 } Position;
-/**
- * Directions
-*/
-typedef enum {
-    NORTH,
-    WEST,
-    SOUTH,
-    EAST
-} Direction;
 
 // typedef struct Gate {
 //     int width;
@@ -37,16 +34,21 @@ typedef enum {
 typedef struct Room
 {
     Position * roomPos;
-    // Gate ** gates;
+    char cardPoints[4];
     int width;
     int height;
-    // Direction ** cardinals;
+    int roomNb;
+    // Tile **tiles;
+    
 } Room;
-int drawRoom(Room *);
-Room * createRoom(int x, int y, int width, int height);
-void removeCardinal(Room * room, Direction cardinal);
 
-
+typedef struct Connector {
+    Position * connectorPos;
+    int direction; // 0 : North
+                   // 1 : West
+                   // 2 : South
+                   // 3 : East   
+} Connector;
 
 typedef struct Map 
 {
@@ -54,9 +56,13 @@ typedef struct Map
     int level;
     int width;
     int height;
+    Tile **tiles;
 } Map;
 int drawMap(Map *);
 Map * createMap(int roomNb, int mapWidth, int mapHeight, int level);
-int drawFirstRoom(Map * map, Room * room);
-
+int drawRoom(Room *);
+Room * createRoom(int x, int y, int width, int height);
+Room * createConnectedRoom(Connector *);
+Connector * randomWallPosition(Map*);
 #endif
+
