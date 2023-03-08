@@ -53,6 +53,8 @@ typedef struct Connector {
 typedef struct Map 
 {
     Room ** rooms;
+    int roomNb;
+    int roomIndex;
     int level;
     int width;
     int height;
@@ -61,8 +63,9 @@ typedef struct Map
 int drawMap(Map *);
 Map * createMap(int roomNb, int mapWidth, int mapHeight, int level);
 int drawRoom(Room *);
+int addRoom(Map *);
 Room * createRoom(int x, int y, int width, int height);
-Room * createConnectedRoom(Connector *);
+int createConnectedRoom(Map *);
 Connector * randomWallPosition(Map*);
 #endif
 

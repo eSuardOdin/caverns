@@ -28,6 +28,7 @@ Map * createMap(int roomNb, int mapWidth, int mapHeight, int level) {
     map->rooms = rooms;
     
     // Map attributes
+    map->roomNb = roomNb;
     map->height = mapHeight;
     map->width = mapWidth;
     map->level = level;
@@ -54,6 +55,7 @@ Map * createMap(int roomNb, int mapWidth, int mapHeight, int level) {
 
     room = createRoom(roomX,roomY,roomWidth,roomHeight);
     rooms[0] = room;
+    map->roomIndex = 1; // To move
 
     // Populate map from room tiles
     for(int x = room[0].roomPos->x; x <= room[0].roomPos->x + room[0].width; x++) {
@@ -89,9 +91,9 @@ Connector * randomWallPosition(Map*map){
     int y;
     Position * pos = (Position*) malloc(sizeof(Position));
     Connector * connector = (Connector*) malloc(sizeof(Connector));
-    // Tile connectorTile;
-    // connectorTile.graphic = ' ';
-    // connectorTile.isCrossable = true; 
+    Tile connectorTile;
+    connectorTile.graphic = ' ';
+    connectorTile.isCrossable = true; 
     while(1) {
         x = rand() % (map->width);
         y = rand() % (map->height);
@@ -109,11 +111,49 @@ Connector * randomWallPosition(Map*map){
             pos->x = x;
             pos->y = y;
             connector->connectorPos = pos;
-            // drawMap(map);
+            map->tiles[x][y].graphic = connectorTile.graphic;
+            drawMap(map);
             break;
         } 
     }
-    return pos;
+    return connector;
+}
+
+int createConnectedRoom(Map * map) {
+    Connector * connector = (Connector*) malloc(sizeof(Connector));
+    Room * room;
+    connector = randomWallPosition(map);
+    if(connector->direction == 0) {         // N
+        room = createRoom(
+            connector->connectorPos->x,
+            connector->connectorPos->y+1,
+            3,
+            5
+         );
+    } else if (connector->direction == 1) { // W
+        room = createRoom(
+            connector->connectorPos->x+1,
+            connector->connectorPos->y,
+            5,
+            3
+         );
+    } else if (connector->direction == 2) { // S
+        room = createRoom(
+            connector->connectorPos->x,
+            connector->connectorPos->y-1,
+            3,
+            5
+         );
+    } else {                                // E
+        room = createRoom(
+            connector->connectorPos->x-1,
+            connector->connectorPos->y,
+            5,
+            3
+         );
+    }
+    map->rooms[map->roomIndex] = room;
+    return 0;
 }
 
 

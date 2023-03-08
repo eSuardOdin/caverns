@@ -12,9 +12,14 @@ int main (void) {
     refresh();
 
     Map * map;
-    map = createMap(2, 100, 50, 1);
-    drawMap(map);
+    map = createMap(4, 100, 50, 1);
+    // // while ((int) sizeof(map->rooms) / sizeof(Room*) < map->roomNb) {
+    // while (map->roomIndex < map->roomNb) {
+    //     createConnectedRoom(map);
+    //     map->roomIndex += 1;
+    // }
     randomWallPosition(map);
+    drawMap(map);
     while((userInput = getch()) != 'x'){
         
     }
